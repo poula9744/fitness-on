@@ -12,10 +12,25 @@ public class GymDao {
 	@Autowired
 	private SqlSession sqlSession;
 
-	// 일반회원권 등록
+	//일반회원권 승인
+	public int approve(int no) {
+		System.out.println("GymDao.registerMembership()");
+		int result = sqlSession.insert("gym.approve", no);
+		return result;
+	}
+	
+	
+	// 일반회원권 등록1
 	public int registerMembership(MemberVo memberVo) {
 		System.out.println("GymDao.registerMembership()");
 		int result = sqlSession.insert("gym.registerMembership", memberVo);
+		return result;
+	}
+	
+	//일반회원권 등록 2: 수정
+	public int registerMembership2(MemberVo memberVo) {
+		System.out.println("GymDao.registerMembership2()");
+		int result = sqlSession.update("gym.registerMembership2", memberVo);
 		return result;
 	}
 

@@ -5,7 +5,7 @@
 	<!-- 로그인 -->
 	<select id="selectByIdPw" resultType="com.javaex.vo.TrainerVo" parameterType="com.javaex.vo.TrainerVo">
 		<![CDATA[
-			select no,name, address, gender, hp, age
+			select trainer_no as trainerNo, name, address, gender, hp, age, career, saveName
 			from trainer
 			where id= #{id}
 			and password=#{password}
@@ -16,7 +16,7 @@
 	<insert id="join" parameterType="com.javaex.vo.TrainerVo">
 		<![CDATA[
 			insert into trainer
-			values(null, #{id}, #{password},#{name}, #{address}, #{gender}, #{hp}, #{age})
+			values(null, #{id}, #{password},#{name}, #{address}, #{gender}, #{hp}, #{age}, null, null, null, null, null);
 		]]>
 	</insert>
 	
@@ -30,16 +30,18 @@
 	<!-- 한 명의 정보 가져오기 -->
 	<select id="selectOneByNo" parameterType="int" resultType="com.javaex.vo.TrainerVo">
 		<![CDATA[ 
-			select 	no, 
+			select 	trainer_no trainerNo, 
 						id,
 						password,
 						name,
 						address,
 						gender,
 						hp,
-						age
+						age,
+						career,
+						saveName
 			from trainer
-			where no = #{no}
+			where trainer_no = #{trainerNo}
 		]]>
 	</select>
 	
@@ -50,22 +52,21 @@
 			set password = #{password},
 				 name = #{name},
 				address = #{address},
-				gender = #{gender},
 				hp = #{hp},
 				age = #{age}
-			where no = #{no}
+			where trainer_no = #{trainerNo}
 		]]>
 	</update>
 	
-	
-	<!-- 사진 등록
-	<insert id="addPhoto" parameterType="com.javaex.vo.TrainerVo">
+	<!-- 로그인 후 메인화면: 트레이너 이름, 사진 저장 이름, 전체회원수, 관리 회원 수  -->
+	<select id="selectTrainerInfo"  parameterType="int" resultType="com.javaex.vo.TrainerVo">
 		<![CDATA[
-			insert into introduction
-			values(#{no}, #{orgName}, #{saveName}, #{filePath}, #{fileSize})
+			select t.name, t.saveName, count(p.pt_no) as totalMember, count(p.no) as trainerMember
+			from trainer t
+			left join pt p on t.trainer_no = p.trainer_no
+			where t.trainer_no = #{trainerNo}
 		]]>
-	</insert>
-	 -->
+	</select>
 	 
 
 	

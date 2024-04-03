@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="gym">
+	<!-- 일반회원권 결제요청폼 -->
+
+
+
 	<!-- 일반회원권 등록 -->
 	<insert id="registerMembership"
 		parameterType="com.javaex.vo.GeneralVo">
@@ -14,40 +18,49 @@
 	<select id="membershipOver" resultType="String"
 		parameterType="int">
 		<![CDATA[
-			select adddate(register_date, remain_date)
+			select reg_date
 			from general
 			where no = #{no}
-			order by register_date desc
+			order by reg_date desc
 			limit 1;
 		]]>
 	</select>
+	
 	<!-- 일반회원 운동 시작 -->
-	<update id="entry" parameterType="int">
-		<![CDATA[ 
-			update general
-			set entry_time = now()
+	<insert id="entry" parameterType="int">
+		<![CDATA[
+			insert into attend
+			values(null, #{no}, now() , null)
+		]]>
+	</insert>
+	<!-- 일반회원 운동 시작시간 -->
+	<select id="trainingStartTime" resultType="String"  parameterType="int">
+		<![CDATA[
+			select entry_time as entryTime
+			from attend
 			where no = #{no}
-			order by register_date desc
+			order by entry_time desc
 			limit 1
 		]]>
-	</update>
+	</select>
 	<!-- 일반회원 운동 종료 -->
 	<update id="leave" parameterType="int">
 		<![CDATA[ 
-			update general
+			update attend
 			set leave_time = now()
 			where no = #{no}
-			order by register_date desc
-			limit 1;
+			order by attend_no desc
+			limit 1
 		]]>
 	</update>
-	<!-- 일반회원 운동 시간 -->
-	<select id="trainingTime" resultType="String" parameterType="int">
+	
+	<!-- 일반회원 운동 종료시간 -->
+	<select id="trainingEndTime" resultType="String"  parameterType="int">
 		<![CDATA[
-			select timediff(leave_time, entry_time)
-			from general
+			select leave_time as leaveTime
+			from attend
 			where no = #{no}
-			order by register_date desc
+			order by leave_time desc
 			limit 1
 		]]>
 	</select>

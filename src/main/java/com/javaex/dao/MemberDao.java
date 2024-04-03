@@ -39,6 +39,7 @@ public class MemberDao {
 	public MemberVo selectMemberInfo(int no) {
 		System.out.println("MemberDao.selectMemberInfo()");
 		MemberVo memberInfo = sqlSession.selectOne("member.selectMemberInfo", no);
+		System.out.println(memberInfo);
 		return memberInfo;
 	}
 

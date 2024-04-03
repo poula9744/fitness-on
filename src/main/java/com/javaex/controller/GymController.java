@@ -1,7 +1,11 @@
 package com.javaex.controller;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,13 +24,30 @@ public class GymController {
 	@Autowired
 	private GymService gymService;
 
+	// 일반회원권 신청확인
+	@PutMapping("/api/gym/manager/{no}")
+	public JsonResult approve(@PathVariable("no") int no) {
+		System.out.println("ManagerController.approve()");
+		int result = gymService.exeApprove(no);
+		return JsonResult.success(result);
+	}
 
 	// 일반회원권 신청요청
-	@PostMapping("/api/general/register")
+	@PutMapping("/api/general/register")
 	public JsonResult registerMembership(@RequestBody MemberVo memberVo, HttpServletRequest request) {
 		System.out.println("GymController.registerMembership()");
 
 		int no = JwtUtil.getNoFromHeader(request);
+
+		LocalDate now = LocalDate.now();
+		LocalDate deadline = now.plusDays(memberVo.getPeriod());
+		String regDate = Date.valueOf(now).toString();
+		String sqlDate = Date.valueOf(deadline).toString();
+
+		memberVo.setRegDate(regDate);
+		memberVo.setDeadline(sqlDate);
+
+		memberVo.setApproval("신청");
 		System.out.println(memberVo);
 		if (no != -1) {
 			int result = gymService.exeRegisterMembership(memberVo);

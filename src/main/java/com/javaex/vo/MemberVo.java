@@ -21,6 +21,8 @@ public class MemberVo {
 	
 	private String regDate;
 	private String deadline;
+	private int price;
+	
 	private int ptCount;
 	private String trainerName;
 	
@@ -71,7 +73,7 @@ public class MemberVo {
 
 	public MemberVo(int no, String id, String password, String name, String address, String gender, String hp, int age,
 			int lockerNo, int period, String approval, int attendNo, String entryTime, String leaveTime, String regDate,
-			String deadline, int ptCount, String trainerName) {
+			String deadline, int price, int ptCount, String trainerName) {
 		super();
 		this.no = no;
 		this.id = id;
@@ -89,6 +91,7 @@ public class MemberVo {
 		this.leaveTime = leaveTime;
 		this.regDate = regDate;
 		this.deadline = deadline;
+		this.price = price;
 		this.ptCount = ptCount;
 		this.trainerName = trainerName;
 	}
@@ -239,6 +242,15 @@ public class MemberVo {
 
 	public void setTrainerName(String trainerName) {
 		this.trainerName = trainerName;
+	}
+	
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
 	}
 
 	//메소드 - 일반
