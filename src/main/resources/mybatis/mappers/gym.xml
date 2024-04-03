@@ -11,7 +11,7 @@
 		]]>
 	</update>
 
-	<!-- 일반회원권 등록 -->
+	<!--- 일반회원권 등록 -->
 	<insert id="registerMembership"
 		parameterType="com.javaex.vo.GeneralVo">
 		<![CDATA[
