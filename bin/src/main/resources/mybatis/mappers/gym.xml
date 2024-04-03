@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gym">
+	<!-- 일반회원권 등록 -->
+	<insert id="registerMembership"
+		parameterType="com.javaex.vo.GeneralVo">
+		<![CDATA[
+			insert into general
+			values(#{no}, now(), null, null, #{remainDate})
+		]]>
+	</insert>
+	<!-- 일반회원권 만료일 -->
+	<select id="membershipOver" resultType="String"
+		parameterType="int">
+		<![CDATA[
+			select adddate(register_date, remain_date)
+			from general
+			where no = #{no}
+			order by register_date desc
+			limit 1;
+		]]>
+	</select>
+	<!-- 일반회원 운동 시작 -->
+	<update id="entry" parameterType="int">
+		<![CDATA[ 
+			update general
+			set entry_time = now()
+			where no = #{no}
+			order by register_date desc
+			limit 1
+		]]>
+	</update>
+	<!-- 일반회원 운동 종료 -->
+	<update id="leave" parameterType="int">
+		<![CDATA[ 
+			update general
+			set leave_time = now()
+			where no = #{no}
+			order by register_date desc
+			limit 1;
+		]]>
+	</update>
+	<!-- 일반회원 운동 시간 -->
+	<select id="trainingTime" resultType="String" parameterType="int">
+		<![CDATA[
+			select timediff(leave_time, entry_time)
+			from general
+			where no = #{no}
+			order by register_date desc
+			limit 1
+		]]>
+	</select>
+
+</mapper>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="trainer">
+	<!-- 로그인 -->
+	<select id="selectByIdPw" resultType="com.javaex.vo.TrainerVo" parameterType="com.javaex.vo.TrainerVo">
+		<![CDATA[
+			select no,name, address, gender, hp, age
+			from trainer
+			where id= #{id}
+			and password=#{password}
+		]]>
+	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="join" parameterType="com.javaex.vo.TrainerVo">
+		<![CDATA[
+			insert into trainer
+			values(null, #{id}, #{password},#{name}, #{address}, #{gender}, #{hp}, #{age})
+		]]>
+	</insert>
+	
+	<!-- 아이디 중복체크 -->
+	<select id="idCheck" resultType="int" parameterType="String">
+		<![CDATA[
+			select count(id) from trainer where id=#{id}
+		]]>
+	</select>
+	
+	<!-- 한 명의 정보 가져오기 -->
+	<select id="selectOneByNo" parameterType="int" resultType="com.javaex.vo.TrainerVo">
+		<![CDATA[ 
+			select 	no, 
+						id,
+						password,
+						name,
+						address,
+						gender,
+						hp,
+						age
+			from trainer
+			where no = #{no}
+		]]>
+	</select>
+	
+	<!-- 회원정보수정 -->
+	<update id="update" parameterType="com.javaex.vo.TrainerVo">
+		<![CDATA[ 
+			update trainer
+			set password = #{password},
+				 name = #{name},
+				address = #{address},
+				gender = #{gender},
+				hp = #{hp},
+				age = #{age}
+			where no = #{no}
+		]]>
+	</update>
+	
+	
+	<!-- 사진 등록
+	<insert id="addPhoto" parameterType="com.javaex.vo.TrainerVo">
+		<![CDATA[
+			insert into introduction
+			values(#{no}, #{orgName}, #{saveName}, #{filePath}, #{fileSize})
+		]]>
+	</insert>
+	 -->
+	 
+
+	
+</mapper>
