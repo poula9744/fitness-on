@@ -4,7 +4,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.javaex.vo.GeneralVo;
 import com.javaex.vo.MemberVo;
 
 @Repository
@@ -14,9 +13,9 @@ public class GymDao {
 	private SqlSession sqlSession;
 
 	// 일반회원권 등록
-	public int registerMembership(GeneralVo generalVo) {
+	public int registerMembership(MemberVo memberVo) {
 		System.out.println("GymDao.registerMembership()");
-		int result = sqlSession.insert("gym.registerMembership", generalVo);
+		int result = sqlSession.insert("gym.registerMembership", memberVo);
 		return result;
 	}
 
@@ -35,6 +34,15 @@ public class GymDao {
 		return count;
 	}
 
+	// 일반회원 운동 시작시
+	public String trainingStartTime(int no) {
+		System.out.println("GymDao.trainingStartTime()");
+		System.out.println(no);
+		String trainingStartTime = sqlSession.selectOne("gym.trainingStartTime", no);
+		System.out.println(trainingStartTime);
+		return trainingStartTime;
+	}
+
 	// 일반회원 퇴장
 	public int leave(int no) {
 		System.out.println("GymDao.leave()");
@@ -43,12 +51,12 @@ public class GymDao {
 		return count;
 	}
 
-	// 일반회원 운동 시간
-	public MemberVo trainingTime(int no) {
-		System.out.println("GymDao.leave()");
+	// 일반회원 운동 종료시
+	public String trainingEndTime(int no) {
+		System.out.println("GymDao.trainingEndTime()");
 		System.out.println(no);
-		MemberVo trainingTime = sqlSession.selectOne("gym.trainingTime", no);
-		System.out.println(trainingTime);
-		return trainingTime;
+		String trainingEndTime = sqlSession.selectOne("gym.trainingEndTime", no);
+		System.out.println(trainingEndTime);
+		return trainingEndTime;
 	}
 }

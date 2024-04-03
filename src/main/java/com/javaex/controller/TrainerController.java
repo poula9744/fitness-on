@@ -95,6 +95,7 @@ public class TrainerController {
 	public JsonResult modifyUser(@RequestBody TrainerVo trainerVo, HttpServletRequest request) {
 		System.out.println("TrainerController.modifyUser()");
 		int no = JwtUtil.getNoFromHeader(request);
+		trainerVo.setTrainerNo(no);
 		System.out.println(no);
 		if (no != -1) { // 정상
 			trainerService.exeModify(trainerVo);

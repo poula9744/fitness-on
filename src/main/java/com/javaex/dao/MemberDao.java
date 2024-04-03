@@ -12,7 +12,7 @@ public class MemberDao {
 	@Autowired
 	private SqlSession sqlSession;
 
-	//로그인
+	// 로그인
 	public MemberVo memberSelectByIdPw(MemberVo memberVo) {
 		System.out.println("MemberDao.memberSelectByIdPw()");
 		MemberVo authUser = sqlSession.selectOne("member.selectByIdPw", memberVo);
@@ -35,10 +35,27 @@ public class MemberDao {
 		return count;
 	}
 
-	//로그인 후 메인화면 
+	// 로그인 후 메인화면
 	public MemberVo selectMemberInfo(int no) {
 		System.out.println("MemberDao.selectMemberInfo()");
 		MemberVo memberInfo = sqlSession.selectOne("member.selectMemberInfo", no);
 		return memberInfo;
+	}
+
+	// 회원정보 수정폼
+	public MemberVo memberSelectOneByNo(int no) {
+		System.out.println("MemberDao.memberSelectOneByNo()");
+		System.out.println(no);
+		MemberVo memberVo = sqlSession.selectOne("member.selectMember", no);
+		System.out.println(memberVo);
+		return memberVo;
+	}
+
+	// 회원정보수정
+	public int memberUpdate(MemberVo memberVo) {
+		System.out.println("MemberDao.memberUpdate()");
+		int count = sqlSession.update("member.update", memberVo);
+		System.out.println(count);
+		return count;
 	}
 }

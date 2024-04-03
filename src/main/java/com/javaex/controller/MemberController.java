@@ -46,7 +46,6 @@ public class MemberController {
 		return count;
 	}
 
-	
 	// 아이디 중복체크
 	@PutMapping("/api/member/join")
 	public int idCheck(@RequestBody MemberVo memberVo) {
@@ -57,8 +56,8 @@ public class MemberController {
 		int count = memberService.exeCheck(id);
 		return count;
 	}
-	
-	//로그인 후 메인화면 
+
+	// 로그인 후 메인화면
 	@GetMapping("/api/member/main")
 	public JsonResult selectMemberInfo(HttpServletRequest request) {
 		System.out.println("MemberController.selectMemberInfo()");
@@ -66,7 +65,7 @@ public class MemberController {
 		int no = JwtUtil.getNoFromHeader(request);
 		System.out.println(no);
 		if (no != -1) {
-			MemberVo memberInfo= memberService.exeMemberInfo(no);
+			MemberVo memberInfo = memberService.exeMemberInfo(no);
 			System.out.println(memberInfo);
 			return JsonResult.success(memberInfo);
 		} else {
@@ -74,5 +73,38 @@ public class MemberController {
 			return JsonResult.fail("fail");
 		}
 	}
-	
+
+	// 수정폼(1명 데이터 가져오기)
+	@GetMapping(value = "/api/member/modify")
+	public JsonResult modifyform(HttpServletRequest request) {
+		System.out.println("MemberController.modifyform()");
+
+		// JWT 토큰에서 no 값을 추출
+		int no = JwtUtil.getNoFromHeader(request);
+		System.out.println(no);
+
+		// 토큰을 사용하여 사용자 인증 및 회원 정보 가져오기
+		MemberVo memberVo = memberService.exeModifyForm(no);
+
+		return JsonResult.success(memberVo);
+
+	}
+
+	// 회원정보 수정
+	@PutMapping("/api/member/modify")
+	public JsonResult modifyMember(@RequestBody MemberVo memberVo, HttpServletRequest request) {
+		System.out.println("MemberController.modifyMember()");
+
+		// JWT 토큰에서 no 값을 추출
+		int no = JwtUtil.getNoFromHeader(request);
+		memberVo.setNo(no);
+		if (no != -1) { // 정상
+			memberService.exeModify(memberVo);
+			return JsonResult.success(memberVo);
+		} else {
+			// 토큰이 없거나(로그인상태 아님) 변조된 경우
+			return JsonResult.fail("fail");
+		}
+	}
+
 }

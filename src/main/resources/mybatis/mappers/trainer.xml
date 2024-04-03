@@ -30,7 +30,7 @@
 	<!-- 한 명의 정보 가져오기 -->
 	<select id="selectOneByNo" parameterType="int" resultType="com.javaex.vo.TrainerVo">
 		<![CDATA[ 
-			select 	trainer_no, 
+			select 	trainer_no trainerNo, 
 						id,
 						password,
 						name,
@@ -41,7 +41,7 @@
 						career,
 						saveName
 			from trainer
-			where no = #{no}
+			where trainer_no = #{trainerNo}
 		]]>
 	</select>
 	
@@ -52,10 +52,9 @@
 			set password = #{password},
 				 name = #{name},
 				address = #{address},
-				gender = #{gender},
 				hp = #{hp},
 				age = #{age}
-			where trainer_no = #{no}
+			where trainer_no = #{trainerNo}
 		]]>
 	</update>
 	

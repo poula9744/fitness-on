@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="gym">
+	<!-- 일반회원권 결제요청폼 -->
+
+
+
 	<!-- 일반회원권 등록 -->
 	<insert id="registerMembership"
 		parameterType="com.javaex.vo.GeneralVo">
@@ -29,22 +33,34 @@
 			values(null, #{no}, now() , null)
 		]]>
 	</insert>
+	<!-- 일반회원 운동 시작시간 -->
+	<select id="trainingStartTime" resultType="String"  parameterType="int">
+		<![CDATA[
+			select entry_time as entryTime
+			from attend
+			where no = #{no}
+			order by entry_time desc
+			limit 1
+		]]>
+	</select>
 	<!-- 일반회원 운동 종료 -->
 	<update id="leave" parameterType="int">
 		<![CDATA[ 
 			update attend
 			set leave_time = now()
 			where no = #{no}
+			order by attend_no desc
+			limit 1
 		]]>
 	</update>
 	
-	<!-- 일반회원 운동 시간 -->
-	<select id="trainingTime" resultType="com.javaex.vo.MemberVo"  parameterType="int">
+	<!-- 일반회원 운동 종료시간 -->
+	<select id="trainingEndTime" resultType="String"  parameterType="int">
 		<![CDATA[
-			select leave_time as leaveTime, entry_time as entryTime
+			select leave_time as leaveTime
 			from attend
 			where no = #{no}
-			order by entryTime desc
+			order by leave_time desc
 			limit 1
 		]]>
 	</select>

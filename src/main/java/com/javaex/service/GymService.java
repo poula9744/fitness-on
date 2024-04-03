@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.javaex.dao.GymDao;
-import com.javaex.vo.GeneralVo;
 import com.javaex.vo.MemberVo;
 
 @Service
@@ -14,10 +13,11 @@ public class GymService {
 	@Autowired
 	private GymDao gymDao;
 
+
 	// 일반회원권 등록
-	public int exeRegisterMembership(GeneralVo generalVo) {
+	public int exeRegisterMembership(MemberVo memberVo) {
 		System.out.println("GymService.exeRegisterMembership()");
-		int result = gymDao.registerMembership(generalVo);
+		int result = gymDao.registerMembership(memberVo);
 		return result;
 	}
 
@@ -29,23 +29,21 @@ public class GymService {
 	}
 
 	// 일반회원 입장
-	public int exeEntry(int no) {
+	public String exeEntry(int no) {
 		System.out.println("GymService.exeEntry()");
-		int count = gymDao.entry(no);
-		return count;
+		gymDao.entry(no);
+		String trainingStartTime = gymDao.trainingStartTime(no);
+		return trainingStartTime;
 	}
 
 	// 일반회원 퇴장
-	public int exeLeave(int no) {
+	public String exeLeave(int no) {
 		System.out.println("GymService.exeLeave()");
-		int count = gymDao.leave(no);
-		return count;
+		gymDao.leave(no);
+		String trainingEndTime = gymDao.trainingEndTime(no);
+		return trainingEndTime;
 	}
 
-	// 일반회원 운동시간
-	public MemberVo exetrainingTime(int no) {
-		System.out.println("GymService.exetrainingTime()");
-		MemberVo trainingTime = gymDao.trainingTime(no);
-		return trainingTime;
-	}
+	
+
 }
